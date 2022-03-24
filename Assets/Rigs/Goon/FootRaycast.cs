@@ -8,6 +8,16 @@ public class FootRaycast : MonoBehaviour
     private float raycastLength = 1f;
 
     private Quaternion startRot;
+
+    /// <summary>
+    /// The world-space position of the ground above or below the foot IK.
+    /// </summary>
+    private Vector3 groundPos;
+
+    /// <summary>
+    /// The world-space rotation for the foot IK to align with the ground.
+    /// </summary>
+    private Quaternion groundRot;
     void Start()
     {
         distanceBetweenGroundAndIK = transform.localPosition.y;
@@ -17,21 +27,26 @@ public class FootRaycast : MonoBehaviour
     
     void Update()
     {
-        Vector3 origin = transform.position + Vector3.up * (raycastLength/2);
+        FindGround();
+    }
+
+    void FindGround()
+    {
+        Vector3 origin = transform.position + Vector3.up * (raycastLength / 2);
         Vector3 direction = Vector3.down;
-        
+
 
         // Check for collision with a ray
-        if(Physics.Raycast(origin, direction, out RaycastHit hitInfo, raycastLength))
+        if (Physics.Raycast(origin, direction, out RaycastHit hitInfo, raycastLength))
         {
             // Find ground position
-            transform.position = hitInfo.point + Vector3.up * distanceBetweenGroundAndIK;
+            groundPos = hitInfo.point + Vector3.up * distanceBetweenGroundAndIK;
 
             // Convert starting rotation into worldspace (order is important for quaternion multiplication)
             Quaternion worldNetural = transform.parent.rotation * startRot;
 
             // Find ground rotation
-            transform.rotation = Quaternion.FromToRotation(Vector3.up, hitInfo.normal) * worldNetural;
+            groundRot = Quaternion.FromToRotation(Vector3.up, hitInfo.normal) * worldNetural;
         }
     }
 }

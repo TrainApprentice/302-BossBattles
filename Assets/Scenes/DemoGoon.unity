@@ -755,6 +755,11 @@ PrefabInstance:
       propertyPath: m_Enabled
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 951544362422686778, guid: 795b6c9acf3f6db4eb56423d8c271f1f,
+        type: 3}
+      propertyPath: walkSpreadZ
+      value: 0.7
+      objectReference: {fileID: 0}
     - target: {fileID: 1688314431298806071, guid: 795b6c9acf3f6db4eb56423d8c271f1f,
         type: 3}
       propertyPath: m_RootOrder
