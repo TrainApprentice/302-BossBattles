@@ -40,7 +40,6 @@ public class PlayerTargeting : MonoBehaviour
 
         if (cooldownScan > 0) cooldownScan -= Time.deltaTime;
         if (cooldownPick > 0) cooldownPick -= Time.deltaTime;
-        if (cooldownAttack > 0) cooldownAttack -= Time.deltaTime;
         if (!controller.isInvincible && !controller.isDead && controller.isGrounded)
         {
             if (playerWantsToAim)

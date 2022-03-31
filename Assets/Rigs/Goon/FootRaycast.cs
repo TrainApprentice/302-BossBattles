@@ -4,9 +4,18 @@ using UnityEngine;
 
 public class FootRaycast : MonoBehaviour
 {
-    float distanceBetweenGroundAndIK = 0;
-    private float raycastLength = 1f;
+    
+    private float raycastLength = 2f;
+    private Vector3 targetPos;
 
+    /// <summary>
+    /// The local-space position of where the IK spawned
+    /// </summary>
+    private Vector3 startPos;
+
+    /// <summary>
+    /// The local-space rotation of where the IK spawned
+    /// </summary>
     private Quaternion startRot;
 
     /// <summary>
@@ -20,14 +29,15 @@ public class FootRaycast : MonoBehaviour
     private Quaternion groundRot;
     void Start()
     {
-        distanceBetweenGroundAndIK = transform.localPosition.y;
         startRot = transform.localRotation;
+        startPos = transform.localPosition;
     }
 
     
     void Update()
     {
-        FindGround();
+        //FindGround();
+        transform.localPosition = AnimMath.Ease(transform.localPosition, targetPos, .01f);
     }
 
     void FindGround()
@@ -40,7 +50,7 @@ public class FootRaycast : MonoBehaviour
         if (Physics.Raycast(origin, direction, out RaycastHit hitInfo, raycastLength))
         {
             // Find ground position
-            groundPos = hitInfo.point + Vector3.up * distanceBetweenGroundAndIK;
+            groundPos = hitInfo.point + Vector3.up * startPos.y;
 
             // Convert starting rotation into worldspace (order is important for quaternion multiplication)
             Quaternion worldNetural = transform.parent.rotation * startRot;
@@ -48,5 +58,20 @@ public class FootRaycast : MonoBehaviour
             // Find ground rotation
             groundRot = Quaternion.FromToRotation(Vector3.up, hitInfo.normal) * worldNetural;
         }
+    }
+
+    public void SetLocalPosition(Vector3 p)
+    {
+        targetPos = p;
+    }
+
+    public void BackToHome()
+    {
+        targetPos = startPos;
+    }
+
+    public void SetOffsetPosition(Vector3 p)
+    {
+        targetPos = startPos + p;
     }
 }
