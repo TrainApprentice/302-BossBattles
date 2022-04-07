@@ -40,7 +40,7 @@ public class PlayerTargeting : MonoBehaviour
 
         if (cooldownScan > 0) cooldownScan -= Time.deltaTime;
         if (cooldownPick > 0) cooldownPick -= Time.deltaTime;
-        if (!controller.isInvincible && !controller.isDead && controller.isGrounded)
+        if (!controller.isInvincible && !controller.isDead)
         {
             if (playerWantsToAim)
             {
@@ -93,8 +93,10 @@ public class PlayerTargeting : MonoBehaviour
         Vector3 toTarget = t.transform.position - transform.position;
         if (toTarget.sqrMagnitude > visionRadius * visionRadius) return false;
         
+        /*
         float alignment = Vector3.Dot(transform.forward, toTarget.normalized);
         if (alignment < .3333f) return false;
+        */
 
         Ray ray = new Ray();
         ray.origin = transform.position;
@@ -104,7 +106,7 @@ public class PlayerTargeting : MonoBehaviour
 
         if(Physics.Raycast(ray, out hit, visionRadius))
         { 
-            if (!hit.collider.CompareTag("Enemy") && !hit.collider.CompareTag("Platform") && !hit.collider.CompareTag("Explosion")) return false;
+            if (!hit.collider.CompareTag("Enemy")) return false;
         }
         
 

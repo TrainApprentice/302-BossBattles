@@ -17,18 +17,17 @@ public class PlayerMovement : MonoBehaviour
     private GameObject cam;
     CharacterController pawn;
     Animator animController;
+    
     private float speed = 7f;
     private float currDodgeCooldown = 0f;
     private float baseDodgeCooldown = 0f;
 
-    /*
-    public Transform jointHips, jointHipLeft, jointHipRight, jointKneeLeft, jointKneeRight;
-    public Transform jointSpine, jointNeck, jointHairLeft, jointHairRight;
-    public Transform jointShoulderLeft, jointShoulderRight, jointElbowLeft, jointElbowRight;
-    public Transform skeletonBase;
-    */
+    public Joint leftShoulder, leftElbow, leftWrist, rightShoulder, rightElbow, rightWrist;
+    public Joint spine1, spine2, spine3, jointNeck;
+    public Joint leftHip, leftKnee, leftAnkle, rightHip, rightKnee, rightAnkle;
 
-    public Transform jointNeck;
+    public Transform leftFoot, rightFoot;
+    
     public bool isDead = false;
     public bool isInvincible = false;
     public bool isGrounded = true;
@@ -39,9 +38,6 @@ public class PlayerMovement : MonoBehaviour
     private bool dieOnce = true;
     PlayerTargeting playerTargeting;
 
-
-    float walkAnimTimer = 0f;
-    float idleAnimTimer = 0f;
     float airAnimTimer = 0f;
     private Vector3 inputDir;
     private float velocityVertical = 0;
@@ -68,33 +64,8 @@ public class PlayerMovement : MonoBehaviour
             float h = Input.GetAxis("Horizontal");
 
             bool playerIsAiming = (playerTargeting && playerTargeting.playerWantsToAim && playerTargeting.target);
-            /*
-            if (playerIsAiming && currDodgeCooldown <= 0)
-            {
-                Vector3 toTarget = playerTargeting.target.transform.position - transform.position;
-                toTarget.Normalize();
-                Quaternion worldRot = Quaternion.LookRotation(toTarget);
-                Vector3 euler = worldRot.eulerAngles;
-                euler.x = 0;
-                euler.z = 0;
-                worldRot.eulerAngles = euler;
-                transform.rotation = AnimMath.Ease(transform.rotation, worldRot, .001f);
-
-            }
-            */
-            /*
-            if (cam && (h != 0 || v != 0))
-            {
-                float playerYaw = transform.eulerAngles.y;
-                float camYaw = cam.transform.eulerAngles.y;
-
-                camYaw = AnimMath.AngleWrapDegrees(playerYaw, camYaw);
-
-                Quaternion playerRot = Quaternion.Euler(0, playerYaw, 0);
-                Quaternion targetRot = Quaternion.Euler(0, camYaw, 0);
-                transform.rotation = AnimMath.Ease(playerRot, targetRot, .001f);
-            }
-            */
+            isBlocking = Input.GetKey("left ctrl");
+            
             if(h!= 0 || v!= 0)
             {
                 if ((pawn.collisionFlags == CollisionFlags.None)) isGrounded = false;
@@ -102,17 +73,13 @@ public class PlayerMovement : MonoBehaviour
 
             Vector3 forwardV = new Vector3(cam.transform.forward.x, 0, cam.transform.forward.z).normalized;
             Vector3 rightV = Vector3.Cross(Vector3.up, forwardV);
-            //Vector3 rightV = new Vector3(cam.transform.right.x, 0, cam.transform.right.z).normalized;
+            
             inputDir = (forwardV * v + rightV * h);
 
             if (inputDir.sqrMagnitude > 1) inputDir.Normalize();
 
-            
-
-
             if (pawn.collisionFlags == CollisionFlags.Below) isGrounded = true;
             
-            //isGrounded = (pawn.isGrounded || transform.position.y <= -1.42f || isOnObstacle);
             bool wantsToJump = Input.GetButtonDown("Jump");
             if (isGrounded)
             {
@@ -133,8 +100,8 @@ public class PlayerMovement : MonoBehaviour
 
             pawn.Move(moveAmt * Time.deltaTime);
 
-            if (isGrounded && inputDir != Vector3.zero && currDodgeCooldown <= 0) currState = Mode.Walk;
-            else if (isBlocking) currState = Mode.Block;
+            if(isBlocking) currState = Mode.Block;
+            else if (isGrounded && inputDir != Vector3.zero && currDodgeCooldown <= 0) currState = Mode.Walk;
             else if (!isGrounded) currState = Mode.Air;
             else currState = Mode.Idle;
 
@@ -169,13 +136,14 @@ public class PlayerMovement : MonoBehaviour
 
     void WalkAnim()
     {
+        speed = 7f;
         Quaternion faceDirection = Quaternion.LookRotation(inputDir, Vector3.up);
         transform.rotation = AnimMath.Ease(transform.rotation, faceDirection, .001f);
     }
 
     void IdleAnim()
     {
-        
+        EaseAllJointsToStart(.001f);
     }
     void AirAnim()
     {
@@ -187,6 +155,51 @@ public class PlayerMovement : MonoBehaviour
     }
     void BlockAnim()
     {
-        
+        Quaternion rightShoulderGoal = Quaternion.Euler(138, 71, 150);
+        Quaternion rightElbowGoal = Quaternion.Euler(73, 20, -85);
+
+        rightShoulder.EaseToNewRotation(rightShoulderGoal, .001f);
+        rightElbow.EaseToNewRotation(rightElbowGoal, .001f);
+    }
+
+    void SetAllJointsToStart()
+    {
+        spine1.ResetToStart();
+        spine2.ResetToStart();
+        spine3.ResetToStart();
+
+        leftShoulder.ResetToStart();
+        leftElbow.ResetToStart();
+        leftWrist.ResetToStart();
+        rightShoulder.ResetToStart();
+        rightElbow.ResetToStart();
+        rightWrist.ResetToStart();
+
+        leftHip.ResetToStart();
+        leftKnee.ResetToStart();
+        leftAnkle.ResetToStart();
+        rightHip.ResetToStart();
+        rightKnee.ResetToStart();
+        rightAnkle.ResetToStart();
+    }
+    void EaseAllJointsToStart(float timer)
+    {
+        spine1.EaseToStartRotation(timer);
+        spine2.EaseToStartRotation(timer);
+        spine3.EaseToStartRotation(timer);
+
+        leftShoulder.EaseToStartRotation(timer);
+        leftElbow.EaseToStartRotation(timer);
+        leftWrist.EaseToStartRotation(timer);
+        rightShoulder.EaseToStartRotation(timer);
+        rightElbow.EaseToStartRotation(timer);
+        rightWrist.EaseToStartRotation(timer);
+
+        leftHip.EaseToStartRotation(timer);
+        leftKnee.EaseToStartRotation(timer);
+        leftAnkle.EaseToStartRotation(timer);
+        rightHip.EaseToStartRotation(timer);
+        rightKnee.EaseToStartRotation(timer);
+        rightAnkle.EaseToStartRotation(timer);
     }
 }

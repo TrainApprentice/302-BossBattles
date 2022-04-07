@@ -19,6 +19,8 @@ public class CameraController: MonoBehaviour
 
     private float pitch = 0, yaw = 0;
     private float zoom = 10;
+
+    private Vector3 midTarget;
     // Start is called before the first frame update
     void Start()
     {
@@ -30,25 +32,29 @@ public class CameraController: MonoBehaviour
     // Update is called once per frame
     void LateUpdate()
     {
-        bool isAiming = (player && player.target && player.playerWantsToAim && !playerController.isDead && !playerController.isInvincible);
+        bool isAiming = (player && player.target && player.playerWantsToAim && !playerController.isDead);
 
         // Position
         if (player == null) return;
         if (Vector3.Distance(transform.position, player.transform.position) > .001f) transform.position = AnimMath.Ease(transform.position, player.transform.position + cameraOffset, .001f);
+        else if (isAiming) transform.position = midTarget + cameraOffset;
         else transform.position = player.transform.position + cameraOffset;
-
-
 
 
         float playerYaw = player.transform.eulerAngles.y;
         playerYaw = AnimMath.AngleWrapDegrees(yaw, playerYaw);
         // Rig Rotation
+        
 
         if (isAiming)
         {
-            Quaternion tempTarget = Quaternion.Euler(20, playerYaw, 0);
+            midTarget = (player.transform.position + player.target.transform.position) / 2 + new Vector3(0, -1, 0);
+
+            Vector3 midDir = midTarget - transform.position;
+
+            Quaternion tempMidPoint = Quaternion.LookRotation(midDir, Vector3.up);
             
-            transform.rotation = AnimMath.Ease(transform.rotation, tempTarget, .001f);
+            transform.rotation = AnimMath.Ease(transform.rotation, tempMidPoint, .001f);
         }
         else
         {
@@ -56,7 +62,6 @@ public class CameraController: MonoBehaviour
             pitch -= Input.GetAxis("Mouse Y") * mouseSensitivityY; // Pitch (x)
 
             pitch = Mathf.Clamp(pitch, -20, 89);
-            
 
             transform.rotation = AnimMath.Ease(transform.rotation, Quaternion.Euler(pitch, yaw, 0), .001f);
         }
@@ -74,15 +79,16 @@ public class CameraController: MonoBehaviour
 
         
 
-        float z = (isAiming) ? -3 : -zoom;
+        float z = -zoom;
 
         cam.transform.localPosition = AnimMath.Ease(cam.transform.localPosition, new Vector3(0, 0, z), .01f);
 
         // Rotate ONLY the camera
 
+        /*
         if(isAiming)
         {
-            Vector3 toAimTarget = player.target.transform.position - cam.transform.position;
+            Vector3 toAimTarget = midTarget - cam.transform.position;
             Quaternion worldRot = Quaternion.LookRotation(toAimTarget);
 
             Quaternion localRot = worldRot;
@@ -99,8 +105,10 @@ public class CameraController: MonoBehaviour
         }
         else
         {
-            cam.transform.localRotation = AnimMath.Ease(cam.transform.localRotation, Quaternion.identity, .001f);
+            
         }
+        */
+        cam.transform.localRotation = AnimMath.Ease(cam.transform.localRotation, Quaternion.identity, .001f);
 
         UpdateShake();
 
