@@ -132,6 +132,7 @@ public class PlayerMovement : MonoBehaviour
                 BlockAnim();
                 break;
         }
+        animController.SetBool("isBlocking", isBlocking);
     }
 
     void WalkAnim()
@@ -144,6 +145,7 @@ public class PlayerMovement : MonoBehaviour
     void IdleAnim()
     {
         EaseAllJointsToStart(.001f);
+        speed = 7f;
     }
     void AirAnim()
     {
@@ -155,11 +157,15 @@ public class PlayerMovement : MonoBehaviour
     }
     void BlockAnim()
     {
+        speed = 0;
         Quaternion rightShoulderGoal = Quaternion.Euler(138, 71, 150);
         Quaternion rightElbowGoal = Quaternion.Euler(73, 20, -85);
 
-        rightShoulder.EaseToNewRotation(rightShoulderGoal, .001f);
-        rightElbow.EaseToNewRotation(rightElbowGoal, .001f);
+        //rightShoulder.EaseToNewRotation(rightShoulderGoal, .001f);
+        //rightElbow.EaseToNewRotation(rightElbowGoal, .001f);
+
+        rightShoulder.SetCurrentRotation(rightShoulderGoal);
+        rightElbow.SetCurrentRotation(rightElbowGoal);
     }
 
     void SetAllJointsToStart()
