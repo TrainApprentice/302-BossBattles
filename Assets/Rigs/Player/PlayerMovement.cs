@@ -22,9 +22,7 @@ public class PlayerMovement : MonoBehaviour
     private float currDodgeCooldown = 0f;
     private float baseDodgeCooldown = 0f;
 
-    public Joint leftShoulder, leftElbow, leftWrist, rightShoulder, rightElbow, rightWrist;
-    public Joint spine1, spine2, spine3, jointNeck;
-    public Joint leftHip, leftKnee, leftAnkle, rightHip, rightKnee, rightAnkle;
+    public Joint leftLeg, rightLeg, rightArm, leftArm;
 
     public Transform leftFoot, rightFoot;
     
@@ -65,6 +63,7 @@ public class PlayerMovement : MonoBehaviour
 
             bool playerIsAiming = (playerTargeting && playerTargeting.playerWantsToAim && playerTargeting.target);
             isBlocking = Input.GetKey("left ctrl");
+            //isBlocking = true;
             
             if(h!= 0 || v!= 0)
             {
@@ -121,18 +120,26 @@ public class PlayerMovement : MonoBehaviour
         {
             case Mode.Idle:
                 IdleAnim();
+                if(rightArm.gameObject.active) rightArm.gameObject.SetActive(false);
+                if (leftArm.gameObject.active) leftArm.gameObject.SetActive(false);
                 break;
             case Mode.Walk:
                 WalkAnim();
+                if (rightArm.gameObject.active) rightArm.gameObject.SetActive(false);
+                if (leftArm.gameObject.active) leftArm.gameObject.SetActive(false);
                 break;
             case Mode.Air:
                 AirAnim();
                 break;
             case Mode.Block:
                 BlockAnim();
+                if (!rightArm.gameObject.active) rightArm.gameObject.SetActive(true);
+                if (!leftArm.gameObject.active) leftArm.gameObject.SetActive(true);
                 break;
         }
         animController.SetBool("isBlocking", isBlocking);
+        animController.SetBool("isGrounded", isGrounded);
+       
     }
 
     void WalkAnim()
@@ -140,11 +147,19 @@ public class PlayerMovement : MonoBehaviour
         speed = 7f;
         Quaternion faceDirection = Quaternion.LookRotation(inputDir, Vector3.up);
         transform.rotation = AnimMath.Ease(transform.rotation, faceDirection, .001f);
+        leftLeg.LockToTarget();
+        rightLeg.LockToTarget();
     }
 
     void IdleAnim()
     {
-        EaseAllJointsToStart(.001f);
+        //EaseAllJointsToStart(.001f);
+        leftLeg.LockToTarget();
+        rightLeg.LockToTarget();
+        leftArm.EaseToStartPosition(.001f);
+        leftArm.EaseToStartRotation(.001f);
+        rightArm.EaseToStartRotation(.001f);
+        rightArm.EaseToStartPosition(.001f);
         speed = 7f;
     }
     void AirAnim()
@@ -158,54 +173,55 @@ public class PlayerMovement : MonoBehaviour
     void BlockAnim()
     {
         speed = 0;
-        Quaternion rightShoulderGoal = Quaternion.Euler(138, 71, 150);
-        Quaternion rightElbowGoal = Quaternion.Euler(73, 20, -85);
+        Vector3 leftArmGoalPos = new Vector3(.323f, 1.709f, .773f);
+        Vector3 rightArmGoalPos = new Vector3(.635f, 1.721f, .623f);
+        Quaternion rightArmGoalRot = Quaternion.Euler(-145, 30, 155);
+        Quaternion leftArmGoalRot = Quaternion.Euler(8, 135, 32);
 
-        //rightShoulder.EaseToNewRotation(rightShoulderGoal, .001f);
-        //rightElbow.EaseToNewRotation(rightElbowGoal, .001f);
-
-        rightShoulder.SetCurrentRotation(rightShoulderGoal);
-        rightElbow.SetCurrentRotation(rightElbowGoal);
+        rightArm.EaseToNewPosition(rightArmGoalPos, .001f);
+        rightArm.EaseToNewRotation(rightArmGoalRot, .001f);
+        leftArm.EaseToNewPosition(leftArmGoalPos, .001f);
+        leftArm.EaseToNewRotation(leftArmGoalRot, .001f);
     }
 
     void SetAllJointsToStart()
     {
-        spine1.ResetToStart();
-        spine2.ResetToStart();
-        spine3.ResetToStart();
-
-        leftShoulder.ResetToStart();
-        leftElbow.ResetToStart();
-        leftWrist.ResetToStart();
-        rightShoulder.ResetToStart();
-        rightElbow.ResetToStart();
-        rightWrist.ResetToStart();
-
-        leftHip.ResetToStart();
-        leftKnee.ResetToStart();
-        leftAnkle.ResetToStart();
-        rightHip.ResetToStart();
-        rightKnee.ResetToStart();
-        rightAnkle.ResetToStart();
+        //spine1.ResetToStart();
+        //spine2.ResetToStart();
+        //spine3.ResetToStart();
+        //
+        //leftShoulder.ResetToStart();
+        //leftElbow.ResetToStart();
+        //leftWrist.ResetToStart();
+        //rightShoulder.ResetToStart();
+        //rightElbow.ResetToStart();
+        //rightWrist.ResetToStart();
+        //
+        //leftHip.ResetToStart();
+        //leftKnee.ResetToStart();
+        //leftAnkle.ResetToStart();
+        //rightHip.ResetToStart();
+        //rightKnee.ResetToStart();
+        //rightAnkle.ResetToStart();
     }
     void EaseAllJointsToStart(float timer)
     {
-        spine1.EaseToStartRotation(timer);
-        spine2.EaseToStartRotation(timer);
-        spine3.EaseToStartRotation(timer);
-
-        leftShoulder.EaseToStartRotation(timer);
-        leftElbow.EaseToStartRotation(timer);
-        leftWrist.EaseToStartRotation(timer);
-        rightShoulder.EaseToStartRotation(timer);
-        rightElbow.EaseToStartRotation(timer);
-        rightWrist.EaseToStartRotation(timer);
-
-        leftHip.EaseToStartRotation(timer);
-        leftKnee.EaseToStartRotation(timer);
-        leftAnkle.EaseToStartRotation(timer);
-        rightHip.EaseToStartRotation(timer);
-        rightKnee.EaseToStartRotation(timer);
-        rightAnkle.EaseToStartRotation(timer);
+        //spine1.EaseToStartRotation(timer);
+        //spine2.EaseToStartRotation(timer);
+        //spine3.EaseToStartRotation(timer);
+        //
+        //leftShoulder.EaseToStartRotation(timer);
+        //leftElbow.EaseToStartRotation(timer);
+        //leftWrist.EaseToStartRotation(timer);
+        //rightShoulder.EaseToStartRotation(timer);
+        //rightElbow.EaseToStartRotation(timer);
+        //rightWrist.EaseToStartRotation(timer);
+        //
+        //leftHip.EaseToStartRotation(timer);
+        //leftKnee.EaseToStartRotation(timer);
+        //leftAnkle.EaseToStartRotation(timer);
+        //rightHip.EaseToStartRotation(timer);
+        //rightKnee.EaseToStartRotation(timer);
+        //rightAnkle.EaseToStartRotation(timer);
     }
 }

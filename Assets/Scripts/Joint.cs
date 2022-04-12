@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+
 public class Joint : MonoBehaviour
 {
     [HideInInspector]
@@ -9,9 +10,13 @@ public class Joint : MonoBehaviour
     [HideInInspector]
     public Vector3 startPos;
 
+    public Transform target;
+
     private void Start()
     {
         SetNewStart();
+        Rigidbody rb = GetComponent<Rigidbody>();
+        if (rb) Destroy(rb);
     }
 
     public void SetCurrentRotation(Quaternion newRot)
@@ -51,5 +56,12 @@ public class Joint : MonoBehaviour
     {
         startRot = transform.localRotation;
         startPos = transform.localPosition;
+    }
+
+    public void LockToTarget()
+    {
+        if (target == null) return;
+        transform.position = target.position;
+        transform.rotation = target.rotation;
     }
 }
