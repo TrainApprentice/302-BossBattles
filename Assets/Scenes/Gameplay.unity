@@ -336,28 +336,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &914699998 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 4305579501304364950, guid: 67e51404f0c18ce498b675eb6d85f076,
-    type: 3}
-  m_PrefabInstance: {fileID: 923557678}
-  m_PrefabAsset: {fileID: 0}
---- !u!54 &914700002
-Rigidbody:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 914699998}
-  serializedVersion: 2
-  m_Mass: 1
-  m_Drag: 0
-  m_AngularDrag: 0.05
-  m_UseGravity: 0
-  m_IsKinematic: 1
-  m_Interpolate: 0
-  m_Constraints: 126
-  m_CollisionDetection: 0
 --- !u!1001 &923557678
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -365,50 +343,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 964773093391435426, guid: 67e51404f0c18ce498b675eb6d85f076,
-        type: 3}
-      propertyPath: m_Data.m_TargetRotationWeight
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1383033430205168726, guid: 67e51404f0c18ce498b675eb6d85f076,
-        type: 3}
-      propertyPath: m_Enabled
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1486694324670640591, guid: 67e51404f0c18ce498b675eb6d85f076,
-        type: 3}
-      propertyPath: m_Data.m_TargetRotationWeight
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1924951015766080792, guid: 67e51404f0c18ce498b675eb6d85f076,
-        type: 3}
-      propertyPath: target
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 4305579501304364950, guid: 67e51404f0c18ce498b675eb6d85f076,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 5766092583570907678, guid: 67e51404f0c18ce498b675eb6d85f076,
-        type: 3}
-      propertyPath: m_Enabled
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 6137003189569490980, guid: 67e51404f0c18ce498b675eb6d85f076,
         type: 3}
       propertyPath: m_Name
       value: Player
-      objectReference: {fileID: 0}
-    - target: {fileID: 6166777414392028309, guid: 67e51404f0c18ce498b675eb6d85f076,
-        type: 3}
-      propertyPath: m_Data.m_TargetRotationWeight
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 6269061940374393269, guid: 67e51404f0c18ce498b675eb6d85f076,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6800667769844714142, guid: 67e51404f0c18ce498b675eb6d85f076,
         type: 3}
@@ -465,14 +403,7 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 8897220542459130183, guid: 67e51404f0c18ce498b675eb6d85f076,
-        type: 3}
-      propertyPath: target
-      value: 
-      objectReference: {fileID: 0}
-    m_RemovedComponents:
-    - {fileID: 3113723383885077037, guid: 67e51404f0c18ce498b675eb6d85f076, type: 3}
-    - {fileID: 8790878978080789554, guid: 67e51404f0c18ce498b675eb6d85f076, type: 3}
+    m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 67e51404f0c18ce498b675eb6d85f076, type: 3}
 --- !u!114 &1067092169 stripped
 MonoBehaviour:
@@ -498,28 +429,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3542f379166148040a12d1a8a3219a56, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!1 &1354336916 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 6269061940374393269, guid: 67e51404f0c18ce498b675eb6d85f076,
-    type: 3}
-  m_PrefabInstance: {fileID: 923557678}
-  m_PrefabAsset: {fileID: 0}
---- !u!54 &1354336920
-Rigidbody:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1354336916}
-  serializedVersion: 2
-  m_Mass: 1
-  m_Drag: 0
-  m_AngularDrag: 0.05
-  m_UseGravity: 0
-  m_IsKinematic: 1
-  m_Interpolate: 0
-  m_Constraints: 126
-  m_CollisionDetection: 0
 --- !u!1 &1385163566
 GameObject:
   m_ObjectHideFlags: 0

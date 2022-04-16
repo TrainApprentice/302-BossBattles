@@ -11,13 +11,12 @@ public class PlayerTargeting : MonoBehaviour
     public bool playerWantsToAim { get; private set; } = false;
     public bool playerWantsToAttack { get; private set; } = false;
 
-    public PointAt jointShoulderRight, jointNeck; //jointShoulderLeft
+    
     public PlayerMovement controller;
 
     private List<TargetableObject> validTargets = new List<TargetableObject>();
     private float cooldownScan = 0;
     private float cooldownPick = 0;
-    private float cooldownAttack = 0;
 
     private CameraController cam;
 
@@ -35,8 +34,7 @@ public class PlayerTargeting : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        playerWantsToAim = Input.GetMouseButton(1);
-        playerWantsToAttack = Input.GetMouseButton(0);
+        playerWantsToAim = Input.GetKey("left shift");
 
         if (cooldownScan > 0) cooldownScan -= Time.deltaTime;
         if (cooldownPick > 0) cooldownPick -= Time.deltaTime;
@@ -60,16 +58,11 @@ public class PlayerTargeting : MonoBehaviour
                 target = null;
             }
 
-            if (jointShoulderRight) jointShoulderRight.target = (target) ? target.transform : null;
-            if (jointNeck) jointNeck.target = (target) ? target.transform : null;
+            
 
             
         }
-        else
-        {
-            if (jointShoulderRight) jointShoulderRight.target =  null;
-            if (jointNeck) jointNeck.target =  null;
-        }
+        
 
     }
 
