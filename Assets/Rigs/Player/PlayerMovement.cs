@@ -25,6 +25,7 @@ public class PlayerMovement : MonoBehaviour
     Animator animController;
 
     public float health = 50;
+    public HealthManager healthbar;
     
     private float speed = 7f;
     private int currAttack = 0; // 1 for light, 2 for heavy, 0 for none
@@ -221,6 +222,7 @@ public class PlayerMovement : MonoBehaviour
             }
             else isDead = true;
         }
+        healthbar.SetHealth(health);
         
     }
 
