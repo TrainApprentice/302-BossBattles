@@ -14,6 +14,8 @@ public class PlayerMovement : MonoBehaviour
         Walk,
         Air,
         Block,
+        Hit,
+        BlockedHit,
         LightAttack,
         HeavyAttack
     }
@@ -21,11 +23,14 @@ public class PlayerMovement : MonoBehaviour
     private GameObject cam;
     CharacterController pawn;
     Animator animController;
+
+    public float health = 50;
     
     private float speed = 7f;
     private int currAttack = 0; // 1 for light, 2 for heavy, 0 for none
     private float lightAttackTimer = 0;
     private float heavyAttackTimer = 0;
+    private float invTimer = 0;
    
     public Joint leftLeg, rightLeg, rightArm, leftArm;
     private TwoBoneIKConstraint leftLegConstraint, rightLegConstraint, leftArmConstraint, rightArmConstraint;
@@ -69,6 +74,7 @@ public class PlayerMovement : MonoBehaviour
     {
         if (!isDead)
         {
+            if (Input.GetKeyDown("l")) ApplyDamage(10);
             // Movement
             float v = Input.GetAxis("Vertical");
             float h = Input.GetAxis("Horizontal");
@@ -113,11 +119,17 @@ public class PlayerMovement : MonoBehaviour
 
             Vector3 moveAmt = (inputDir * speed) + (Vector3.up * velocityVertical);
             animController.SetFloat("Speed", inputDir.sqrMagnitude);
-            
 
+            if (invTimer > 0) invTimer -= Time.deltaTime;
+            else
+            {
+                invTimer = 0;
+                isInvincible = false;
+            }
             pawn.Move(moveAmt * Time.deltaTime);
 
-            if(isBlocking) currState = Mode.Block;
+            if (isInvincible) currState = (isBlocking) ? Mode.BlockedHit : Mode.Hit;
+            else if (isBlocking) currState = Mode.Block;
             else if (currAttack != 0) currState = (currAttack == 1) ? Mode.LightAttack : Mode.HeavyAttack;
             else if (isGrounded && inputDir != Vector3.zero) currState = Mode.Walk;
             else if (!isGrounded) currState = Mode.Air;
@@ -129,10 +141,7 @@ public class PlayerMovement : MonoBehaviour
 
     }
 
-    public void TakeHit()
-    {
-        
-    }
+    
     void StateMachine()
     {
         switch (currState)
@@ -177,13 +186,62 @@ public class PlayerMovement : MonoBehaviour
                 leftLegConstraint.weight = AnimMath.Ease(leftLegConstraint.weight, 0, .0001f);
                 rightLegConstraint.weight = AnimMath.Ease(rightLegConstraint.weight, 0, .0001f);
                 break;
+            case Mode.Hit:
+                DamageAnim();
+                leftArmConstraint.weight = AnimMath.Ease(leftArmConstraint.weight, 0, .0001f);
+                rightArmConstraint.weight = AnimMath.Ease(rightArmConstraint.weight, 0, .0001f);
+                leftLegConstraint.weight = AnimMath.Ease(leftLegConstraint.weight, 0, .0001f);
+                rightLegConstraint.weight = AnimMath.Ease(rightLegConstraint.weight, 0, .0001f);
+                break;
+            case Mode.BlockedHit:
+                BlockedDamageAnim();
+                leftArmConstraint.weight = AnimMath.Ease(leftArmConstraint.weight, 1, .0001f);
+                rightArmConstraint.weight = AnimMath.Ease(rightArmConstraint.weight, 1, .0001f);
+                leftLegConstraint.weight = AnimMath.Ease(leftLegConstraint.weight, 1, .0001f);
+                rightLegConstraint.weight = AnimMath.Ease(rightLegConstraint.weight, 1, .0001f);
+                break;
 
         }
         animController.SetBool("isBlocking", isBlocking);
         animController.SetBool("isGrounded", isGrounded);
         animController.SetInteger("currAttack", currAttack);
+        animController.SetBool("gotHit", isInvincible);
+        animController.SetBool("isDead", isDead);
     }
 
+    void ApplyDamage(int damage)
+    {
+        if(!isInvincible)
+        {
+            health -= (isBlocking) ? damage/2 : damage;
+            if (health > 0)
+            {
+                isInvincible = true;
+                invTimer = (isBlocking) ? .75f : 1.25f;
+            }
+            else isDead = true;
+        }
+        
+    }
+
+    void DamageAnim()
+    {
+        speed = 0;
+        animController.speed = .75f;
+    }
+    void BlockedDamageAnim()
+    {
+        speed = 0;
+        Vector3 leftArmGoalPos = new Vector3(.323f, 1.709f, .773f);
+        Vector3 rightArmGoalPos = new Vector3(.635f, 1.721f, .623f);
+        Quaternion rightArmGoalRot = Quaternion.Euler(-145, 30, 155);
+        Quaternion leftArmGoalRot = Quaternion.Euler(8, 135, 32);
+
+        rightArm.EaseToNewPosition(rightArmGoalPos, .001f);
+        rightArm.EaseToNewRotation(rightArmGoalRot, .001f);
+        leftArm.EaseToNewPosition(leftArmGoalPos, .001f);
+        leftArm.EaseToNewRotation(leftArmGoalRot, .001f);
+    }
     void WalkAnim()
     {
         speed = 7f;
@@ -199,7 +257,7 @@ public class PlayerMovement : MonoBehaviour
 
     void IdleAnim()
     {
-        
+        animController.speed = 1;
         leftLeg.LockToTarget();
         rightLeg.LockToTarget();
         leftArm.EaseToStartPosition(.001f);
@@ -214,26 +272,55 @@ public class PlayerMovement : MonoBehaviour
     }
     void AirAnim()
     {
+        animController.speed = 1;
         airAnimTimer += Time.deltaTime;
-        if (!hasResetLegs && airAnimTimer > .2f)
+        if(airAnimTimer < .2f)
+        {
+            leftLegConstraint.weight = AnimMath.Ease(leftLegConstraint.weight, 0, .0001f);
+            rightLegConstraint.weight = AnimMath.Ease(rightLegConstraint.weight, 0, .0001f);
+        }
+        
+        else if(airAnimTimer < .8f)
         {
             leftLeg.LockToTarget();
             rightLeg.LockToTarget();
-            hasResetLegs = true;
         }
-        else if(airAnimTimer > .2f)
+        else if(airAnimTimer < 1.8f)
         {
+            leftLegConstraint.weight = AnimMath.Ease(leftLegConstraint.weight, 1, .0001f);
+            rightLegConstraint.weight = AnimMath.Ease(rightLegConstraint.weight, 1, .0001f);
 
+            float wave = Mathf.Sin(airAnimTimer * 10) * .15f;
+
+
+            Vector3 leftLegGoalPos = leftLeg.transform.localPosition + new Vector3(0, wave, 0); 
+            Vector3 rightLegGoalPos = new Vector3(-.25f, .25f, .4f);
+            leftLeg.EaseToNewPosition(leftLegGoalPos, .001f);
+            rightLeg.EaseToNewPosition(rightLegGoalPos, .001f);
+            
+        }
+        else
+        {
+            leftLeg.EaseToStartPosition(.001f);
+            rightLeg.EaseToStartPosition(.001f);
         }
         if (airAnimTimer > 1.83f) hasResetLegs = false;
         
     }
     void DeathAnim()
     {
+        if(!dieOnce)
+        {
+            speed = 0;
+            animController.SetBool("isDead", isDead);
+            isInvincible = false;
+            dieOnce = true;
+        }
         
     }
     void BlockAnim()
     {
+        animController.speed = 1;
         speed = 0;
         Vector3 leftArmGoalPos = new Vector3(.323f, 1.709f, .773f);
         Vector3 rightArmGoalPos = new Vector3(.635f, 1.721f, .623f);
@@ -248,6 +335,7 @@ public class PlayerMovement : MonoBehaviour
 
     void LightAttackAnim()
     {
+        animController.speed = 1;
         speed = 0;
         currAttack = 1;
         lightAttackTimer += Time.deltaTime;
@@ -262,6 +350,7 @@ public class PlayerMovement : MonoBehaviour
     }
     void HeavyAttackAnim()
     {
+        animController.speed = 1;
         speed = 0;
         currAttack = 2;
         heavyAttackTimer += Time.deltaTime;

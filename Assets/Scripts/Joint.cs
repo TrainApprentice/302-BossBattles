@@ -38,11 +38,12 @@ public class Joint : MonoBehaviour
     public void EaseToNewPosition(Vector3 newPos, float percent)
     {
         transform.localPosition = AnimMath.Ease(transform.localPosition, newPos, percent);
+        
     }
     public void EaseToNewRotation(Quaternion newRot, float percent)
     {
-        
         transform.localRotation = AnimMath.Ease(transform.localRotation, newRot, percent);
+        
     }
 
 
