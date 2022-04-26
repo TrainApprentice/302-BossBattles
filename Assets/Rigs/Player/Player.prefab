@@ -2799,6 +2799,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 110043dfcad2a474bbebe7eef0886360, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  health: 50
+  healthbar: {fileID: 0}
   leftLeg: {fileID: 1024229791476557656}
   rightLeg: {fileID: 4936956967683309080}
   rightArm: {fileID: 1924951015766080792}
@@ -2839,12 +2841,6 @@ MonoBehaviour:
   - {fileID: 5265597997508190862}
   - {fileID: 559833790436751315}
   - {fileID: 4790563881168284532}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
   - {fileID: 683791286822529486}
   - {fileID: 7400290397368777749}
   - {fileID: 124695698019269751}

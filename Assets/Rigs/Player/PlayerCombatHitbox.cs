@@ -17,7 +17,7 @@ public class PlayerCombatHitbox : MonoBehaviour
     {
         if(collision.gameObject.CompareTag("Enemy"))
         {
-
+            print("Ouch!");
         }
     }
 
