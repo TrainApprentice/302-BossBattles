@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 38df28e7971be0744bae17914492986f
+guid: a519b3a2dfd6f3046bbe15738572b64d
 ModelImporter:
   serializedVersion: 21202
   internalIDToNameTable:
@@ -46,8 +46,8 @@ ModelImporter:
       74: 3736115461317279700
     second: WalkCycleReference2|Idle Animation
   - first:
-      74: -4738787537193980997
-    second: BlockBase
+      74: 7105303978170447457
+    second: Block Base
   externalObjects: {}
   materials:
     materialImportMode: 2
@@ -89,7 +89,7 @@ ModelImporter:
       cycleOffset: 0
       loop: 0
       hasAdditiveReferencePose: 0
-      loopTime: 1
+      loopTime: 0
       loopBlend: 0
       loopBlendOrientation: 0
       loopBlendPositionY: 0
@@ -484,7 +484,7 @@ ModelImporter:
       maskSource: {instanceID: 0}
       additiveReferencePoseFrame: 0
     - serializedVersion: 16
-      name: BlockBase
+      name: Block Base
       takeName: Armature|Idle Animation
       internalID: 0
       firstFrame: 0
@@ -495,7 +495,7 @@ ModelImporter:
       cycleOffset: 0
       loop: 0
       hasAdditiveReferencePose: 0
-      loopTime: 0
+      loopTime: 1
       loopBlend: 0
       loopBlendOrientation: 0
       loopBlendPositionY: 0

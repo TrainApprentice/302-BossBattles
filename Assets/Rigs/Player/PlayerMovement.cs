@@ -49,7 +49,7 @@ public class PlayerMovement : MonoBehaviour
     PlayerTargeting playerTargeting;
 
     float airAnimTimer = 0f;
-    bool hasResetLegs = false;
+    bool hasResetLimbs = false;
     private Vector3 inputDir;
     private float velocityVertical = 0;
     private float gravMult = -9.8f;
@@ -67,6 +67,8 @@ public class PlayerMovement : MonoBehaviour
         rightArmConstraint = rightArm.GetComponent<TwoBoneIKConstraint>();
         leftLegConstraint = leftLeg.GetComponent<TwoBoneIKConstraint>();
         rightLegConstraint = rightLeg.GetComponent<TwoBoneIKConstraint>();
+
+        
         
     }
 
@@ -271,6 +273,15 @@ public class PlayerMovement : MonoBehaviour
         airAnimTimer = 0;
         lightAttackTimer = 0;
         heavyAttackTimer = 0;
+        if(!hasResetLimbs)
+        {
+            leftArm.LockToTarget();
+            rightArm.LockToTarget();
+            leftLeg.LockToTarget();
+            rightLeg.LockToTarget();
+
+            hasResetLimbs = true;
+        }
     }
     void AirAnim()
     {
@@ -306,7 +317,7 @@ public class PlayerMovement : MonoBehaviour
             leftLeg.EaseToStartPosition(.001f);
             rightLeg.EaseToStartPosition(.001f);
         }
-        if (airAnimTimer > 1.83f) hasResetLegs = false;
+        
         
     }
     void DeathAnim()
