@@ -7,18 +7,22 @@ public class DragonAI : MonoBehaviour
     public int health = 50;
     public HealthManager healthbar;
     private DragonMovement mover;
+    public GameObject flameBase;
+    public Transform flameStart;
+    public GameObject clawHitbox;
 
-    private bool isAttackingBreath;
-    private bool isAttackingClaw;
+    private PlayerMovement playerRef;
     private bool isStunned;
     private float stunTimer = 0;
     private float breathTimer = 0;
+    public float clawTimer = 0;
 
-    private bool isDead = false;
+    public bool isDead = false;
     // Start is called before the first frame update
     void Start()
     {
         mover = GetComponent<DragonMovement>();
+        playerRef = FindObjectOfType<PlayerMovement>();
     }
 
     // Update is called once per frame
@@ -34,25 +38,26 @@ public class DragonAI : MonoBehaviour
             isStunned = false;
             stunTimer = 0;
         }
-        print(isStunned + ", " + stunTimer);
         
     }
 
-    private void BreathAttack()
+    public void BreathAttack()
     {
-        
+        if (breathTimer > 0) breathTimer -= Time.deltaTime;
+        else
+        {
+            Vector3 dir = playerRef.transform.position - flameStart.transform.position;
+            dir.Normalize();
+            GameObject newFlame = Instantiate(flameBase, flameStart.position, Quaternion.identity);
+            newFlame.GetComponent<FlameBehavior>().direction = dir;
+            breathTimer = .03f;
+        }
     }
-    private void ClawAttack()
+    public void ClawAttack()
     {
-
-    }
-
-    private void UpdateMover()
-    {
-        mover.isAttackingBreath = isAttackingBreath;
-        mover.isAttackingClaw = isAttackingClaw;
-        mover.isStunned = isStunned;
-        mover.isDead = isDead;
+        clawTimer += Time.deltaTime;
+        if (clawTimer > .3f) clawHitbox.SetActive(false);
+        else clawHitbox.SetActive(true);
     }
 
     public void ApplyDamage(int damage) 

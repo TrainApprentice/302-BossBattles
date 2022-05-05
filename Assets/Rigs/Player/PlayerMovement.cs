@@ -42,6 +42,7 @@ public class PlayerMovement : MonoBehaviour
     public bool isDead = false;
     public bool isInvincible = false;
     public bool isGrounded = true;
+    public bool isInCutscene = false;
 
     private bool isBlocking = false;
     
@@ -77,68 +78,72 @@ public class PlayerMovement : MonoBehaviour
     {
         if (!isDead)
         {
-            if (Input.GetKeyDown("l")) ApplyDamage(10);
-            // Movement
-            float v = Input.GetAxis("Vertical");
-            float h = Input.GetAxis("Horizontal");
-
-            bool playerIsAiming = (playerTargeting && playerTargeting.playerWantsToAim && playerTargeting.target);
-            isBlocking = Input.GetKey("left ctrl");
-
-            bool playerWantsToLightAttack = Input.GetMouseButtonDown(0);
-            bool playerWantsToHeavyAttack = Input.GetMouseButtonDown(1);
-            if (playerWantsToLightAttack) currAttack = 1;
-            else if (playerWantsToHeavyAttack) currAttack = 2;
-            //else currAttack = 0;
-            //isBlocking = true;
-            
-            if(h!= 0 || v!= 0)
+            if(!isInCutscene)
             {
-                if ((pawn.collisionFlags == CollisionFlags.None)) isGrounded = false;
-            }
+                if (Input.GetKeyDown("l")) ApplyDamage(10);
+                // Movement
+                float v = Input.GetAxis("Vertical");
+                float h = Input.GetAxis("Horizontal");
 
-            Vector3 forwardV = new Vector3(cam.transform.forward.x, 0, cam.transform.forward.z).normalized;
-            Vector3 rightV = Vector3.Cross(Vector3.up, forwardV);
-            
-            inputDir = (forwardV * v + rightV * h);
+                bool playerIsAiming = (playerTargeting && playerTargeting.playerWantsToAim && playerTargeting.target);
+                isBlocking = Input.GetKey("left ctrl");
 
-            if (inputDir.sqrMagnitude > 1) inputDir.Normalize();
+                bool playerWantsToLightAttack = Input.GetMouseButtonDown(0);
+                bool playerWantsToHeavyAttack = Input.GetMouseButtonDown(1);
+                if (playerWantsToLightAttack) currAttack = 1;
+                else if (playerWantsToHeavyAttack) currAttack = 2;
+                //else currAttack = 0;
+                //isBlocking = true;
 
-            if (pawn.collisionFlags == CollisionFlags.Below) isGrounded = true;
-            
-            bool wantsToJump = Input.GetButtonDown("Jump");
-            if (isGrounded)
-            {
-                velocityVertical = 0;
-                airAnimTimer = 0;
-                if (wantsToJump)
+                if (h != 0 || v != 0)
                 {
-                  
-                    isGrounded = false;
-                    velocityVertical += 9f;
+                    if ((pawn.collisionFlags == CollisionFlags.None)) isGrounded = false;
                 }
+
+                Vector3 forwardV = new Vector3(cam.transform.forward.x, 0, cam.transform.forward.z).normalized;
+                Vector3 rightV = Vector3.Cross(Vector3.up, forwardV);
+
+                inputDir = (forwardV * v + rightV * h);
+
+                if (inputDir.sqrMagnitude > 1) inputDir.Normalize();
+
+                if (pawn.collisionFlags == CollisionFlags.Below) isGrounded = true;
+
+                bool wantsToJump = Input.GetButtonDown("Jump");
+                if (isGrounded)
+                {
+                    velocityVertical = 0;
+                    airAnimTimer = 0;
+                    if (wantsToJump)
+                    {
+
+                        isGrounded = false;
+                        velocityVertical += 9f;
+                    }
+                }
+                velocityVertical += gravMult * Time.deltaTime;
+
+                Vector3 moveAmt = (inputDir * speed) + (Vector3.up * velocityVertical);
+                animController.SetFloat("Speed", inputDir.sqrMagnitude);
+
+                if (invTimer > 0) invTimer -= Time.deltaTime;
+                else
+                {
+                    invTimer = 0;
+                    isInvincible = false;
+                }
+                pawn.Move(moveAmt * Time.deltaTime);
+
+                if (isInvincible) currState = (isBlocking) ? Mode.BlockedHit : Mode.Hit;
+                else if (isBlocking) currState = Mode.Block;
+                else if (currAttack != 0) currState = (currAttack == 1) ? Mode.LightAttack : Mode.HeavyAttack;
+                else if (isGrounded && inputDir != Vector3.zero) currState = Mode.Walk;
+                else if (!isGrounded) currState = Mode.Air;
+                else currState = Mode.Idle;
+
+                StateMachine();
             }
-            velocityVertical += gravMult * Time.deltaTime;
-
-            Vector3 moveAmt = (inputDir * speed) + (Vector3.up * velocityVertical);
-            animController.SetFloat("Speed", inputDir.sqrMagnitude);
-
-            if (invTimer > 0) invTimer -= Time.deltaTime;
-            else
-            {
-                invTimer = 0;
-                isInvincible = false;
-            }
-            pawn.Move(moveAmt * Time.deltaTime);
-
-            if (isInvincible) currState = (isBlocking) ? Mode.BlockedHit : Mode.Hit;
-            else if (isBlocking) currState = Mode.Block;
-            else if (currAttack != 0) currState = (currAttack == 1) ? Mode.LightAttack : Mode.HeavyAttack;
-            else if (isGrounded && inputDir != Vector3.zero) currState = Mode.Walk;
-            else if (!isGrounded) currState = Mode.Air;
-            else currState = Mode.Idle;
-
-            StateMachine();
+            
         }
         else DeathAnim();
 
@@ -210,6 +215,18 @@ public class PlayerMovement : MonoBehaviour
         animController.SetInteger("currAttack", currAttack);
         animController.SetBool("gotHit", isInvincible);
         animController.SetBool("isDead", isDead);
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if(other.CompareTag("Fire"))
+        {
+            ApplyDamage(5);
+        }
+        if(other.CompareTag("Claw"))
+        {
+            ApplyDamage(10);
+        }
     }
 
     void ApplyDamage(int damage)
