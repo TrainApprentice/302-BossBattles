@@ -363,6 +363,8 @@ GameObject:
   m_Component:
   - component: {fileID: 8458831257068570190}
   - component: {fileID: 2899920985285446370}
+  - component: {fileID: 7206727815878738872}
+  - component: {fileID: 4760318256407057752}
   m_Layer: 0
   m_Name: IK - Right Hand
   m_TagString: Untagged
@@ -397,7 +399,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: aeda7bfbf984f2a4da5ab4b8967b115d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Weight: 1
+  m_Weight: 0
   m_Data:
     m_Root: {fileID: 8963586233467627537}
     m_Mid: {fileID: 4577832023316068217}
@@ -409,6 +411,37 @@ MonoBehaviour:
     m_HintWeight: 1
     m_MaintainTargetPositionOffset: 0
     m_MaintainTargetRotationOffset: 0
+--- !u!114 &7206727815878738872
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 581128417521131584}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d564cce0cf9e54d4ba67e9bddd5d6bd0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  startRot: {x: 0, y: 0, z: 0, w: 0}
+  startPos: {x: 0, y: 0, z: 0}
+  target: {fileID: 0}
+--- !u!54 &4760318256407057752
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 581128417521131584}
+  serializedVersion: 2
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_UseGravity: 1
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
 --- !u!1 &587848378721898663
 GameObject:
   m_ObjectHideFlags: 0
@@ -917,6 +950,8 @@ GameObject:
   m_Component:
   - component: {fileID: 7762387636028721884}
   - component: {fileID: 1178584249071278793}
+  - component: {fileID: 371647693289177991}
+  - component: {fileID: 2025620487183702691}
   m_Layer: 0
   m_Name: IK - Right Foot
   m_TagString: Untagged
@@ -951,7 +986,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: aeda7bfbf984f2a4da5ab4b8967b115d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Weight: 1
+  m_Weight: 0
   m_Data:
     m_Root: {fileID: 6181392409735355831}
     m_Mid: {fileID: 1015229859353215545}
@@ -963,6 +998,37 @@ MonoBehaviour:
     m_HintWeight: 1
     m_MaintainTargetPositionOffset: 0
     m_MaintainTargetRotationOffset: 0
+--- !u!114 &371647693289177991
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1653394976108442512}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d564cce0cf9e54d4ba67e9bddd5d6bd0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  startRot: {x: 0, y: 0, z: 0, w: 0}
+  startPos: {x: 0, y: 0, z: 0}
+  target: {fileID: 0}
+--- !u!54 &2025620487183702691
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1653394976108442512}
+  serializedVersion: 2
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_UseGravity: 1
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
 --- !u!1 &1721250751565359362
 GameObject:
   m_ObjectHideFlags: 0
@@ -1225,6 +1291,8 @@ GameObject:
   m_Component:
   - component: {fileID: 7224773806153478277}
   - component: {fileID: 1095899451175193658}
+  - component: {fileID: 4814712810444207513}
+  - component: {fileID: 24374537833483516}
   m_Layer: 0
   m_Name: IK - Left Foot
   m_TagString: Untagged
@@ -1259,7 +1327,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: aeda7bfbf984f2a4da5ab4b8967b115d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Weight: 1
+  m_Weight: 0
   m_Data:
     m_Root: {fileID: 2121137395794213994}
     m_Mid: {fileID: 7769730841594210649}
@@ -1271,6 +1339,37 @@ MonoBehaviour:
     m_HintWeight: 1
     m_MaintainTargetPositionOffset: 0
     m_MaintainTargetRotationOffset: 0
+--- !u!114 &4814712810444207513
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2103765582412982106}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d564cce0cf9e54d4ba67e9bddd5d6bd0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  startRot: {x: 0, y: 0, z: 0, w: 0}
+  startPos: {x: 0, y: 0, z: 0}
+  target: {fileID: 0}
+--- !u!54 &24374537833483516
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2103765582412982106}
+  serializedVersion: 2
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_UseGravity: 1
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
 --- !u!1 &2259326359945306391
 GameObject:
   m_ObjectHideFlags: 0
@@ -1697,6 +1796,8 @@ GameObject:
   m_Component:
   - component: {fileID: 9012799153436734719}
   - component: {fileID: 2060171737810285781}
+  - component: {fileID: 1203069451272738085}
+  - component: {fileID: 5113453570596303888}
   m_Layer: 0
   m_Name: IK - Head
   m_TagString: Untagged
@@ -1731,7 +1832,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: aeda7bfbf984f2a4da5ab4b8967b115d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Weight: 1
+  m_Weight: 0
   m_Data:
     m_Root: {fileID: 121528476614278400}
     m_Mid: {fileID: 3071598953684407020}
@@ -1743,6 +1844,37 @@ MonoBehaviour:
     m_HintWeight: 1
     m_MaintainTargetPositionOffset: 0
     m_MaintainTargetRotationOffset: 0
+--- !u!114 &1203069451272738085
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3212921867757862753}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d564cce0cf9e54d4ba67e9bddd5d6bd0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  startRot: {x: 0, y: 0, z: 0, w: 0}
+  startPos: {x: 0, y: 0, z: 0}
+  target: {fileID: 0}
+--- !u!54 &5113453570596303888
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3212921867757862753}
+  serializedVersion: 2
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_UseGravity: 1
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
 --- !u!1 &3298698759087013826
 GameObject:
   m_ObjectHideFlags: 0
@@ -2034,6 +2166,8 @@ GameObject:
   - component: {fileID: 7072887741698439321}
   - component: {fileID: 7025209058588040362}
   - component: {fileID: 1482334784026628661}
+  - component: {fileID: 292827334279608999}
+  - component: {fileID: 3419059437504242751}
   m_Layer: 0
   m_Name: Dragon
   m_TagString: Enemy
@@ -2049,7 +2183,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3631861771133487106}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -16.343657, y: 0.00000023841858, z: 5.7586975}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -2226,6 +2360,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 12767e3d76a6f7d4cb38e64d6eceee40, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  leftLeg: {fileID: 4814712810444207513}
+  leftArm: {fileID: 371647693289177991}
+  rightLeg: {fileID: 371647693289177991}
+  rightArm: {fileID: 7206727815878738872}
+  neck: {fileID: 1203069451272738085}
+  isAttackingBreath: 0
+  isAttackingClaw: 0
+  isStunned: 0
+  isDead: 0
 --- !u!65 &7025209058588040362
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -2238,7 +2381,7 @@ BoxCollider:
   m_Enabled: 1
   serializedVersion: 2
   m_Size: {x: 5, y: 2, z: 10}
-  m_Center: {x: 0, y: 2, z: 0}
+  m_Center: {x: 0, y: 1, z: 0}
 --- !u!114 &1482334784026628661
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2251,10 +2394,40 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 320e2f1aafbee2d468db3a788cbec3d7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  currHealth: 200
-  prevHealth: 200
-  maxHealth: 200
+  currHealth: 1
+  prevHealth: 1
+  maxHealth: 1
   isDead: 0
+--- !u!114 &292827334279608999
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3631861771133487106}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 78341cd4f5360f64aa2f6ae18e920d02, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  health: 50
+  healthbar: {fileID: 0}
+--- !u!54 &3419059437504242751
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3631861771133487106}
+  serializedVersion: 2
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_UseGravity: 0
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 126
+  m_CollisionDetection: 0
 --- !u!1 &3645690843421752380
 GameObject:
   m_ObjectHideFlags: 0
@@ -3542,6 +3715,8 @@ GameObject:
   m_Component:
   - component: {fileID: 534689935852558006}
   - component: {fileID: 7980170661794284559}
+  - component: {fileID: 7809175601217016762}
+  - component: {fileID: 6985243734324225060}
   m_Layer: 0
   m_Name: IK - Left Hand
   m_TagString: Untagged
@@ -3576,7 +3751,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: aeda7bfbf984f2a4da5ab4b8967b115d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Weight: 1
+  m_Weight: 0
   m_Data:
     m_Root: {fileID: 2290481285341901245}
     m_Mid: {fileID: 7238072191515645815}
@@ -3588,6 +3763,37 @@ MonoBehaviour:
     m_HintWeight: 1
     m_MaintainTargetPositionOffset: 0
     m_MaintainTargetRotationOffset: 0
+--- !u!114 &7809175601217016762
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6316963627233551156}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d564cce0cf9e54d4ba67e9bddd5d6bd0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  startRot: {x: 0, y: 0, z: 0, w: 0}
+  startPos: {x: 0, y: 0, z: 0}
+  target: {fileID: 0}
+--- !u!54 &6985243734324225060
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6316963627233551156}
+  serializedVersion: 2
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_UseGravity: 1
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
 --- !u!1 &6426372132178186949
 GameObject:
   m_ObjectHideFlags: 0

@@ -18,6 +18,7 @@ public class PlayerCombatHitbox : MonoBehaviour
         if(collision.gameObject.CompareTag("Enemy"))
         {
             print("Ouch!");
+            collision.gameObject.GetComponent<DragonAI>().ApplyDamage(damage);
         }
     }
 
